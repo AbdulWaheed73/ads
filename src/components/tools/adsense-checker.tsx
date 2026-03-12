@@ -14,16 +14,19 @@ import { Badge } from "@/components/ui/badge";
 import { CheckCircle2, XCircle, Loader2, Search } from "lucide-react";
 
 interface CheckItem {
-  label: string;
+  name: string;
   passed: boolean;
-  detail?: string;
+  details?: string;
 }
 
 interface AdsenseResult {
+  url: string;
   checks: CheckItem[];
-  passCount: number;
-  failCount: number;
-  overallScore: number;
+  score: {
+    passed: number;
+    total: number;
+    percentage: number;
+  };
 }
 
 export function AdsenseChecker() {
@@ -121,7 +124,7 @@ export function AdsenseChecker() {
                 <div>
                   <h3 className="text-sm font-semibold">Overall Score</h3>
                   <p className="text-sm text-muted-foreground mt-0.5">
-                    {result.passCount} of {result.passCount + result.failCount}{" "}
+                    {result.score.passed} of {result.score.total}{" "}
                     checks passed
                   </p>
                 </div>
@@ -129,21 +132,21 @@ export function AdsenseChecker() {
                   <div className="flex items-center gap-1.5">
                     <CheckCircle2 className="h-4 w-4 text-green-600" />
                     <span className="text-sm font-medium">
-                      {result.passCount}
+                      {result.score.passed}
                     </span>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <XCircle className="h-4 w-4 text-red-500" />
                     <span className="text-sm font-medium">
-                      {result.failCount}
+                      {result.score.total - result.score.passed}
                     </span>
                   </div>
                   <Badge
                     variant={
-                      result.overallScore >= 80 ? "default" : "destructive"
+                      result.score.percentage >= 80 ? "default" : "destructive"
                     }
                   >
-                    {result.overallScore}%
+                    {result.score.percentage}%
                   </Badge>
                 </div>
               </div>
@@ -152,13 +155,13 @@ export function AdsenseChecker() {
               <div className="mt-3 h-2 w-full rounded-full bg-muted overflow-hidden">
                 <div
                   className={`h-full rounded-full transition-all ${
-                    result.overallScore >= 80
+                    result.score.percentage >= 80
                       ? "bg-green-600"
-                      : result.overallScore >= 50
+                      : result.score.percentage >= 50
                         ? "bg-yellow-500"
                         : "bg-red-500"
                   }`}
-                  style={{ width: `${result.overallScore}%` }}
+                  style={{ width: `${result.score.percentage}%` }}
                 />
               </div>
             </div>
@@ -185,11 +188,11 @@ export function AdsenseChecker() {
                             : "text-red-600 dark:text-red-400"
                         }`}
                       >
-                        {check.label}
+                        {check.name}
                       </p>
-                      {check.detail && (
+                      {check.details && (
                         <p className="text-xs text-muted-foreground mt-0.5">
-                          {check.detail}
+                          {check.details}
                         </p>
                       )}
                     </div>
