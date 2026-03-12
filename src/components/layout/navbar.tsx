@@ -13,6 +13,7 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -44,7 +45,7 @@ export function Navbar() {
               {categories.map((cat, ci) => {
                 const catTools = tools.filter((t) => cat.slugs.includes(t.slug));
                 return (
-                  <div key={cat.label}>
+                  <DropdownMenuGroup key={cat.label}>
                     {ci > 0 && <DropdownMenuSeparator />}
                     <DropdownMenuLabel>{cat.label}</DropdownMenuLabel>
                     {catTools.map((tool) => (
@@ -53,7 +54,7 @@ export function Navbar() {
                         {tool.name}
                       </DropdownMenuItem>
                     ))}
-                  </div>
+                  </DropdownMenuGroup>
                 );
               })}
             </DropdownMenuContent>
