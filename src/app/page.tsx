@@ -1,6 +1,7 @@
 import { Hero } from "@/components/home/hero";
 import { ToolCard } from "@/components/home/tool-card";
 import { Features } from "@/components/home/features";
+import { AdSlot } from "@/components/ads/ad-slot";
 import { tools } from "@/lib/tools-data";
 import {
   Accordion,
@@ -59,6 +60,11 @@ export default function Home() {
       />
       <Hero />
 
+      {/* Ad slot between hero and tools */}
+      <div className="container mx-auto px-4">
+        <AdSlot format="horizontal" className="my-6" />
+      </div>
+
       <section id="tools" className="py-16">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-4">
@@ -68,8 +74,16 @@ export default function Home() {
             Pick a tool and get started — no sign-up required.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {tools.map((tool) => (
-              <ToolCard key={tool.slug} tool={tool} />
+            {tools.map((tool, index) => (
+              <>
+                <ToolCard key={tool.slug} tool={tool} />
+                {/* Insert ad after every 6th card */}
+                {(index + 1) % 6 === 0 && index < tools.length - 1 && (
+                  <div key={`ad-${index}`} className="col-span-full">
+                    <AdSlot format="horizontal" />
+                  </div>
+                )}
+              </>
             ))}
           </div>
         </div>

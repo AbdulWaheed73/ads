@@ -12,6 +12,7 @@ export default function Page() {
   return (
     <ToolPageWrapper
       name="JSON Formatter & Validator"
+      slug="json-formatter"
       description="Paste your JSON to instantly format, minify, or validate it with clear syntax highlighting and helpful error messages."
       howToUse={[
         "Paste your raw JSON data into the input area.",

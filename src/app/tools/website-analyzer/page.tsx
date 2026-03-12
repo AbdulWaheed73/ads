@@ -12,6 +12,7 @@ export default function Page() {
   return (
     <ToolPageWrapper
       name="Website Analyzer"
+      slug="website-analyzer"
       description="Enter any URL to get a comprehensive analysis of SEO health, performance metrics, accessibility, and actionable improvement recommendations."
       howToUse={[
         "Enter the full URL of the website you want to analyze.",

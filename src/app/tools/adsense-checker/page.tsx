@@ -12,6 +12,7 @@ export default function Page() {
   return (
     <ToolPageWrapper
       name="Google AdSense Approval Checker"
+      slug="adsense-checker"
       description="Evaluate your website against Google AdSense approval criteria. Get a detailed checklist of requirements and actionable tips to improve your chances."
       howToUse={[
         "Enter your website URL to begin the AdSense readiness analysis.",

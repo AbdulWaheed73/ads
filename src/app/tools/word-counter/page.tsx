@@ -12,6 +12,7 @@ export default function Page() {
   return (
     <ToolPageWrapper
       name="Word Counter with Keyword Density & Readability"
+      slug="word-counter"
       description="Analyze your text with word count, keyword density percentages, and Flesch-Kincaid readability scores to optimize your content for SEO."
       howToUse={[
         "Paste or type your content into the text area below.",

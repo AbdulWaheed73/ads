@@ -12,6 +12,7 @@ export default function Page() {
   return (
     <ToolPageWrapper
       name="QR Code Generator"
+      slug="qr-generator"
       description="Create custom QR codes for URLs, text, Wi-Fi credentials, and more. Customize colors and download in PNG or SVG format."
       howToUse={[
         "Enter the URL, text, or data you want to encode into a QR code.",

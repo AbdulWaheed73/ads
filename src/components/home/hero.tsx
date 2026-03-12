@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { tools } from "@/lib/tools-data";
 
 export function Hero() {
   return (
@@ -20,7 +21,7 @@ export function Hero() {
           </span>
         </h1>
         <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-          10 powerful, privacy-first tools that run right in your browser. No sign-ups, no ads, no data collection. Just fast, free utilities.
+          {tools.length} powerful, privacy-first tools that run right in your browser. No sign-ups, no ads, no data collection. Just fast, free utilities.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link

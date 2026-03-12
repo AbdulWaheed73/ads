@@ -12,6 +12,7 @@ export default function Page() {
   return (
     <ToolPageWrapper
       name="Character Counter & Text Analyzer"
+      slug="character-counter"
       description="Count characters, words, sentences, paragraphs, and estimate reading time — all in real-time as you type."
       howToUse={[
         "Type or paste your text into the text area below.",

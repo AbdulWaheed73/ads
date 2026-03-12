@@ -12,6 +12,7 @@ export default function Page() {
   return (
     <ToolPageWrapper
       name="World Time Converter"
+      slug="time-converter"
       description="Instantly convert time between any time zones worldwide. Compare multiple zones side by side to find the perfect meeting time."
       howToUse={[
         "Select your source time zone and enter the time you want to convert.",

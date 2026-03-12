@@ -4,6 +4,10 @@ import { Separator } from "@/components/ui/separator";
 import { tools } from "@/lib/tools-data";
 
 export function Footer() {
+  const mid = Math.ceil(tools.length / 2);
+  const col1 = tools.slice(0, mid);
+  const col2 = tools.slice(mid);
+
   return (
     <footer className="border-t bg-card">
       <div className="container mx-auto px-4 py-12">
@@ -21,7 +25,7 @@ export function Footer() {
           <div>
             <h3 className="font-semibold mb-3 text-sm">Tools</h3>
             <ul className="space-y-2">
-              {tools.slice(0, 5).map((tool) => (
+              {col1.map((tool) => (
                 <li key={tool.slug}>
                   <Link
                     href={`/tools/${tool.slug}`}
@@ -37,7 +41,7 @@ export function Footer() {
           <div>
             <h3 className="font-semibold mb-3 text-sm">More Tools</h3>
             <ul className="space-y-2">
-              {tools.slice(5).map((tool) => (
+              {col2.map((tool) => (
                 <li key={tool.slug}>
                   <Link
                     href={`/tools/${tool.slug}`}

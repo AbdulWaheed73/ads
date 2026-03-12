@@ -12,6 +12,7 @@ export default function Page() {
   return (
     <ToolPageWrapper
       name="Meta Tag / SEO Tag Generator"
+      slug="meta-tag-generator"
       description="Generate complete meta tags for SEO, Open Graph, and Twitter Cards. Preview your search result appearance and copy the HTML to your site."
       howToUse={[
         "Fill in your page title, description, URL, and optional image URL in the form fields.",

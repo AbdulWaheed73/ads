@@ -12,6 +12,7 @@ export default function Page() {
   return (
     <ToolPageWrapper
       name="Image Compressor"
+      slug="image-compressor"
       description="Compress your images directly in the browser with no server uploads. Reduce file sizes while preserving visual quality for faster page loads."
       howToUse={[
         "Drag and drop an image or click to select a JPEG, PNG, or WebP file from your device.",

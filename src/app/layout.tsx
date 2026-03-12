@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { Analytics } from "@vercel/analytics/react";
@@ -6,6 +7,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Toaster } from "@/components/ui/sonner";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { AdSlot } from "@/components/ads/ad-slot";
 import "./globals.css";
 
 const inter = Inter({
@@ -20,7 +22,7 @@ export const metadata: Metadata = {
     template: "%s | WebToolKit",
   },
   description:
-    "Free online tools for developers and creators. Character counter, word counter, JSON formatter, QR code generator, password generator, image compressor, and more. Fast, private, and always free.",
+    "Free online tools for developers and creators. Character counter, word counter, JSON formatter, QR code generator, password generator, image compressor, Base64 encoder, hash generator, color converter, and more. Fast, private, and always free.",
   keywords: [
     "online tools",
     "developer tools",
@@ -33,6 +35,13 @@ export const metadata: Metadata = {
     "image compressor",
     "SEO tools",
     "meta tag generator",
+    "base64 encoder",
+    "url encoder",
+    "hash generator",
+    "color converter",
+    "lorem ipsum generator",
+    "markdown preview",
+    "text case converter",
   ],
   authors: [{ name: "WebToolKit" }],
   creator: "WebToolKit",
@@ -62,9 +71,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const adsenseClientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans antialiased`}>
+        {adsenseClientId && (
+          <Script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClientId}`}
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+        )}
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -74,6 +93,10 @@ export default function RootLayout({
           <div className="flex min-h-screen flex-col">
             <Navbar />
             <main className="flex-1">{children}</main>
+            {/* Above-footer ad slot */}
+            <div className="container mx-auto px-4 py-4">
+              <AdSlot format="horizontal" />
+            </div>
             <Footer />
           </div>
           <Toaster />

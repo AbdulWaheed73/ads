@@ -12,6 +12,7 @@ export default function Page() {
   return (
     <ToolPageWrapper
       name="Password Generator & Strength Meter"
+      slug="password-generator"
       description="Generate cryptographically secure passwords with customizable options and instantly check their strength — all processed locally in your browser."
       howToUse={[
         "Set your desired password length and toggle options like uppercase, lowercase, numbers, and symbols.",

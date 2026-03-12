@@ -84,6 +84,9 @@ export default function AdminPage() {
     );
   }
 
+  // Calculate total pages: tool pages + blog pages + static pages (home, about, contact, blog index, privacy, terms, disclaimer, admin, sitemap) = 9 + tools + blogs
+  const totalPages = 9 + tools.length + blogPosts.length;
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="flex items-center justify-between mb-8">
@@ -109,7 +112,7 @@ export default function AdminPage() {
         {[
           { label: "Tools", value: tools.length, icon: Wrench, color: "text-blue-500" },
           { label: "Blog Posts", value: blogPosts.length, icon: FileText, color: "text-green-500" },
-          { label: "Total Pages", value: 34, icon: Globe, color: "text-purple-500" },
+          { label: "Total Pages", value: totalPages, icon: Globe, color: "text-purple-500" },
           { label: "API Routes", value: 2, icon: Activity, color: "text-orange-500" },
         ].map((stat) => (
           <Card key={stat.label}>

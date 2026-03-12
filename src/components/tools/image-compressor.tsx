@@ -16,6 +16,31 @@ function formatBytes(bytes: number): string {
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
 }
 
+function getMimeFromExtension(filename: string): string | null {
+  const ext = filename.split(".").pop()?.toLowerCase();
+  const map: Record<string, string> = {
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+    png: "image/png",
+    webp: "image/webp",
+    gif: "image/gif",
+    bmp: "image/bmp",
+    avif: "image/avif",
+    tiff: "image/tiff",
+    tif: "image/tiff",
+  };
+  return ext ? map[ext] ?? null : null;
+}
+
+function loadImageElement(file: File): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error("Failed to load image"));
+    img.src = URL.createObjectURL(file);
+  });
+}
+
 export function ImageCompressor() {
   const [originalFile, setOriginalFile] = useState<File | null>(null);
   const [originalSize, setOriginalSize] = useState(0);
@@ -34,10 +59,20 @@ export function ImageCompressor() {
       setIsCompressing(true);
 
       try {
-        const bitmap = await createImageBitmap(file);
+        // Try createImageBitmap first, fall back to Image element
+        let source: HTMLImageElement | ImageBitmap;
+        try {
+          source = await createImageBitmap(file);
+        } catch {
+          source = await loadImageElement(file);
+        }
+
+        const width = source instanceof HTMLImageElement ? source.naturalWidth : source.width;
+        const height = source instanceof HTMLImageElement ? source.naturalHeight : source.height;
+
         const canvas = document.createElement("canvas");
-        canvas.width = bitmap.width;
-        canvas.height = bitmap.height;
+        canvas.width = width;
+        canvas.height = height;
 
         const ctx = canvas.getContext("2d");
         if (!ctx) {
@@ -45,15 +80,31 @@ export function ImageCompressor() {
           return;
         }
 
-        ctx.drawImage(bitmap, 0, 0);
+        // Detect MIME type with extension fallback
+        const mime = file.type || getMimeFromExtension(file.name) || "image/jpeg";
 
-        let outputType = "image/jpeg";
-        if (file.type === "image/png") outputType = "image/png";
-        if (file.type === "image/webp") outputType = "image/webp";
+        let outputType = mime;
+        // Only support output types the canvas can produce
+        if (!["image/jpeg", "image/png", "image/webp"].includes(outputType)) {
+          outputType = "image/jpeg";
+        }
 
         // PNG does not support quality parameter, convert to JPEG for compression
         if (outputType === "image/png" && qualityValue < 100) {
           outputType = "image/jpeg";
+        }
+
+        // Fill canvas with white background for JPEG output (prevents black transparency)
+        if (outputType === "image/jpeg") {
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(0, 0, width, height);
+        }
+
+        ctx.drawImage(source, 0, 0);
+
+        // Clean up Image element URL if used
+        if (source instanceof HTMLImageElement) {
+          URL.revokeObjectURL(source.src);
         }
 
         const blob = await new Promise<Blob | null>((resolve) => {
@@ -74,7 +125,7 @@ export function ImageCompressor() {
         const url = URL.createObjectURL(blob);
         setCompressedUrl(url);
       } catch {
-        toast.error("Failed to compress image");
+        toast.error("Failed to compress image. The image format may not be supported by your browser.");
       } finally {
         setIsCompressing(false);
       }
@@ -84,9 +135,17 @@ export function ImageCompressor() {
 
   const handleFile = useCallback(
     (file: File) => {
-      const validTypes = ["image/jpeg", "image/png", "image/webp"];
-      if (!validTypes.includes(file.type)) {
-        toast.error("Please upload a JPEG, PNG, or WebP image");
+      const mime = file.type || getMimeFromExtension(file.name);
+
+      // Reject SVG files
+      if (mime === "image/svg+xml" || file.name.toLowerCase().endsWith(".svg")) {
+        toast.error("SVG files are not supported. Please use a raster image format.");
+        return;
+      }
+
+      // Accept any image type that the browser can decode
+      if (!mime || !mime.startsWith("image/")) {
+        toast.error("Please upload a valid image file");
         return;
       }
 
@@ -144,9 +203,14 @@ export function ImageCompressor() {
   );
 
   const downloadCompressed = useCallback(() => {
-    if (!compressedUrl || !originalFile) return;
+    if (!compressedUrl || !originalFile || !compressedBlob) return;
 
-    const ext = compressedBlob?.type === "image/webp" ? "webp" : "jpg";
+    const extMap: Record<string, string> = {
+      "image/jpeg": "jpg",
+      "image/png": "png",
+      "image/webp": "webp",
+    };
+    const ext = extMap[compressedBlob.type] || "jpg";
     const baseName = originalFile.name.replace(/\.[^.]+$/, "");
 
     const link = document.createElement("a");
@@ -186,7 +250,7 @@ export function ImageCompressor() {
         <input
           ref={fileInputRef}
           type="file"
-          accept="image/jpeg,image/png,image/webp"
+          accept="image/*"
           onChange={handleFileInput}
           className="hidden"
         />
@@ -209,7 +273,7 @@ export function ImageCompressor() {
                 Drop an image here or click to browse
               </p>
               <p className="text-xs text-muted-foreground mt-1">
-                Supports JPEG, PNG, and WebP
+                Supports JPEG, PNG, WebP, GIF, BMP, AVIF, and more
               </p>
             </div>
           </div>
