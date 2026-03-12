@@ -25,15 +25,29 @@ import {
 } from "lucide-react";
 
 interface AnalysisResult {
-  metaTitle: string;
-  metaDescription: string;
-  headings: { h1: number; h2: number; h3: number; h4: number; h5: number; h6: number };
-  imagesCount: number;
-  imagesWithoutAlt: number;
-  pageSize: string;
+  url: string;
+  statusCode: number;
   responseTime: number;
+  pageSize: number;
+  pageSizeFormatted: string;
   ssl: boolean;
-  hasViewport: boolean;
+  meta: {
+    title: string | null;
+    description: string | null;
+    viewport: string | null;
+    ogTitle: string | null;
+    ogDescription: string | null;
+    ogImage: string | null;
+    canonical: string | null;
+  };
+  headings: { h1: number; h2: number; h3: number; h4: number; h5: number; h6: number };
+  images: {
+    total: number;
+    withoutAlt: number;
+  };
+  links: {
+    total: number;
+  };
 }
 
 export function WebsiteAnalyzer() {
@@ -140,7 +154,7 @@ export function WebsiteAnalyzer() {
                     Title
                   </span>
                   <p className="text-sm font-medium mt-0.5">
-                    {result.metaTitle || "No title found"}
+                    {result.meta.title || "No title found"}
                   </p>
                 </div>
                 <div>
@@ -148,9 +162,19 @@ export function WebsiteAnalyzer() {
                     Description
                   </span>
                   <p className="text-sm mt-0.5">
-                    {result.metaDescription || "No description found"}
+                    {result.meta.description || "No description found"}
                   </p>
                 </div>
+                {result.meta.canonical && (
+                  <div>
+                    <span className="text-xs text-muted-foreground uppercase tracking-wide">
+                      Canonical URL
+                    </span>
+                    <p className="text-sm mt-0.5 break-all">
+                      {result.meta.canonical}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -193,18 +217,18 @@ export function WebsiteAnalyzer() {
                 <div className="flex flex-wrap gap-4">
                   <div className="flex items-center gap-2">
                     <span className="text-sm">Total Images:</span>
-                    <Badge variant="secondary">{result.imagesCount}</Badge>
+                    <Badge variant="secondary">{result.images.total}</Badge>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-sm">Without Alt:</span>
                     <Badge
                       variant={
-                        result.imagesWithoutAlt > 0
+                        result.images.withoutAlt > 0
                           ? "destructive"
                           : "secondary"
                       }
                     >
-                      {result.imagesWithoutAlt}
+                      {result.images.withoutAlt}
                     </Badge>
                   </div>
                 </div>
@@ -215,13 +239,13 @@ export function WebsiteAnalyzer() {
             <div className="space-y-3">
               <h3 className="text-sm font-semibold flex items-center gap-2">
                 <Clock className="h-4 w-4" />
-                Performance & Security
+                Performance &amp; Security
               </h3>
               <div className="rounded-lg border p-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="flex items-center justify-between">
                     <span className="text-sm">Page Size</span>
-                    <Badge variant="secondary">{result.pageSize}</Badge>
+                    <Badge variant="secondary">{result.pageSizeFormatted}</Badge>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-sm">Response Time</span>
@@ -251,9 +275,9 @@ export function WebsiteAnalyzer() {
                       Viewport Meta
                     </span>
                     <Badge
-                      variant={result.hasViewport ? "default" : "destructive"}
+                      variant={result.meta.viewport ? "default" : "destructive"}
                     >
-                      {result.hasViewport ? "Present" : "Missing"}
+                      {result.meta.viewport ? "Present" : "Missing"}
                     </Badge>
                   </div>
                 </div>
