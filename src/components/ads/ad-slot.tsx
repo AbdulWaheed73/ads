@@ -30,9 +30,9 @@ export function AdSlot({ format, className = "" }: AdSlotProps) {
 
   return (
     <div
-      className={`w-full flex items-center justify-center border border-dashed border-muted-foreground/20 rounded-lg bg-muted/5 ${formatStyles[format]} ${className}`}
+      className={`w-full flex items-center justify-center border border-dashed border-muted-foreground/30 rounded-lg bg-muted/10 ${formatStyles[format]} ${className}`}
     >
-      <span className="text-xs text-muted-foreground/40">Advertisement</span>
+      <span className="text-xs text-muted-foreground">Advertisement</span>
     </div>
   );
 }

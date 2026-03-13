@@ -84,7 +84,7 @@ export function Navbar() {
         <div className="flex md:hidden items-center gap-2">
           <ThemeToggle />
           <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger render={<Button variant="ghost" size="icon" />}>
+            <SheetTrigger render={<Button variant="ghost" size="icon" aria-label="Open menu" />}>
               <Menu className="h-5 w-5" />
             </SheetTrigger>
             <SheetContent side="right" className="w-72 overflow-auto">
