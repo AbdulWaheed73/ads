@@ -16,6 +16,16 @@ import {
   Palette,
   TextCursorInput,
   FileCode,
+  KeyRound,
+  Timer,
+  FileCode2,
+  ArrowLeftRight,
+  Paintbrush,
+  Scaling,
+  GitCompareArrows,
+  Regex,
+  FileOutput,
+  Crop,
 } from "lucide-react";
 
 export interface Tool {
@@ -199,13 +209,113 @@ export const tools: Tool[] = [
     type: "client",
     category: "utility",
   },
+  {
+    name: "UUID Generator",
+    slug: "uuid-generator",
+    description: "Generate random UUID v4 identifiers instantly.",
+    longDescription:
+      "Generate one or hundreds of cryptographically random UUID v4 identifiers with a single click. Toggle uppercase, copy individually or in bulk. Uses crypto.randomUUID() — everything runs in your browser.",
+    icon: KeyRound,
+    type: "client",
+    category: "developer",
+  },
+  {
+    name: "Unix Timestamp Converter",
+    slug: "timestamp-converter",
+    description: "Convert between Unix epoch timestamps and human-readable dates.",
+    longDescription:
+      "Convert Unix epoch timestamps to human-readable dates and vice versa. See the current timestamp live, parse any epoch value, or pick a date to get its epoch. Supports seconds and milliseconds.",
+    icon: Timer,
+    type: "client",
+    category: "developer",
+  },
+  {
+    name: "HTML Entity Encoder/Decoder",
+    slug: "html-encoder",
+    description: "Encode and decode HTML entities for safe web content.",
+    longDescription:
+      "Encode special characters like &, <, >, and quotes into HTML entities, or decode entity strings back to readable text. Essential for preventing XSS and displaying code snippets in web pages.",
+    icon: FileCode2,
+    type: "client",
+    category: "developer",
+  },
+  {
+    name: "Number Base Converter",
+    slug: "base-converter",
+    description: "Convert numbers between binary, octal, decimal, and hexadecimal.",
+    longDescription:
+      "Instantly convert numbers between binary (base 2), octal (base 8), decimal (base 10), and hexadecimal (base 16). All four fields update in real time as you type in any one of them.",
+    icon: ArrowLeftRight,
+    type: "client",
+    category: "developer",
+  },
+  {
+    name: "CSS Minifier / Beautifier",
+    slug: "css-formatter",
+    description: "Minify or beautify CSS code with one click.",
+    longDescription:
+      "Paste your CSS and instantly minify it for production or beautify it for readability. Strips comments and whitespace for minification, adds proper indentation for beautification. 100% client-side.",
+    icon: Paintbrush,
+    type: "client",
+    category: "developer",
+  },
+  {
+    name: "Image Resizer",
+    slug: "image-resizer",
+    description: "Resize images to exact dimensions or social media presets.",
+    longDescription:
+      "Resize any image to custom dimensions or popular social media sizes (Instagram, Facebook, Twitter, YouTube, LinkedIn). Lock aspect ratio, preview results, and download — all in your browser.",
+    icon: Scaling,
+    type: "client",
+    category: "utility",
+  },
+  {
+    name: "Text Diff / Compare",
+    slug: "text-diff",
+    description: "Compare two texts side by side and highlight differences.",
+    longDescription:
+      "Paste two pieces of text and instantly see a color-coded diff. Added lines are highlighted in green, removed lines in red. Perfect for comparing code, documents, or any text content.",
+    icon: GitCompareArrows,
+    type: "client",
+    category: "developer",
+  },
+  {
+    name: "Regex Tester",
+    slug: "regex-tester",
+    description: "Test regular expressions with live match highlighting.",
+    longDescription:
+      "Write a regex pattern, set flags, and test it against any text with real-time match highlighting. See match count, captured groups, and match positions. Uses native JavaScript RegExp.",
+    icon: Regex,
+    type: "client",
+    category: "developer",
+  },
+  {
+    name: "Image to PDF Converter",
+    slug: "image-to-pdf",
+    description: "Convert one or more images into a single PDF file.",
+    longDescription:
+      "Upload multiple images, reorder them, choose a page size, and generate a PDF — all in your browser. No server uploads, no watermarks. Supports JPEG, PNG, and WebP input.",
+    icon: FileOutput,
+    type: "client",
+    category: "utility",
+  },
+  {
+    name: "Image Cropper",
+    slug: "image-cropper",
+    description: "Crop images with custom or preset aspect ratios online.",
+    longDescription:
+      "Upload an image, draw a crop selection with your mouse or finger, choose from aspect ratio presets (free, 1:1, 4:3, 16:9, 3:2), and download the cropped result. Works on desktop and mobile.",
+    icon: Crop,
+    type: "client",
+    category: "utility",
+  },
 ];
 
 export const toolCategories = {
   seo: { label: "SEO & Web", slugs: ["adsense-checker", "website-analyzer", "meta-tag-generator"] },
   text: { label: "Text Tools", slugs: ["character-counter", "word-counter", "case-converter", "lorem-generator"] },
-  developer: { label: "Developer Tools", slugs: ["json-formatter", "base64-encoder", "url-encoder", "hash-generator", "markdown-preview", "color-converter"] },
-  utility: { label: "Utilities", slugs: ["qr-generator", "password-generator", "image-compressor", "time-converter"] },
+  developer: { label: "Developer Tools", slugs: ["json-formatter", "base64-encoder", "url-encoder", "hash-generator", "markdown-preview", "color-converter", "uuid-generator", "timestamp-converter", "html-encoder", "base-converter", "css-formatter", "text-diff", "regex-tester"] },
+  utility: { label: "Utilities", slugs: ["qr-generator", "password-generator", "image-compressor", "time-converter", "image-resizer", "image-to-pdf", "image-cropper"] },
 };
 
 export function getToolBySlug(slug: string): Tool | undefined {
