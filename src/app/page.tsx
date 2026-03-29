@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { Hero } from "@/components/home/hero";
 import { ToolCard } from "@/components/home/tool-card";
 import { Features } from "@/components/home/features";
@@ -75,15 +76,15 @@ export default function Home() {
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {tools.map((tool, index) => (
-              <>
-                <ToolCard key={tool.slug} tool={tool} />
+              <Fragment key={tool.slug}>
+                <ToolCard tool={tool} />
                 {/* Insert ad after every 6th card */}
                 {(index + 1) % 6 === 0 && index < tools.length - 1 && (
-                  <div key={`ad-${index}`} className="col-span-full">
+                  <div className="col-span-full">
                     <AdSlot format="horizontal" />
                   </div>
                 )}
-              </>
+              </Fragment>
             ))}
           </div>
         </div>
