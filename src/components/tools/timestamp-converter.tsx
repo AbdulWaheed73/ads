@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Timer, Copy } from "lucide-react";
 
 export function TimestampConverter() {
-  const [now, setNow] = useState(() => Math.floor(Date.now() / 1000));
+  const [now, setNow] = useState(0);
   const [epochInput, setEpochInput] = useState("");
   const [epochResult, setEpochResult] = useState<{ local: string; iso: string } | null>(null);
   const [dateInput, setDateInput] = useState("");
@@ -17,6 +17,7 @@ export function TimestampConverter() {
   const [dateResult, setDateResult] = useState<string | null>(null);
 
   useEffect(() => {
+    setNow(Math.floor(Date.now() / 1000));
     const interval = setInterval(() => {
       setNow(Math.floor(Date.now() / 1000));
     }, 1000);
