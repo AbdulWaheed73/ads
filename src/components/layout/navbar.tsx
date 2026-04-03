@@ -87,13 +87,15 @@ export function Navbar() {
             <SheetTrigger render={<Button variant="ghost" size="icon" aria-label="Open menu" />}>
               <Menu className="h-5 w-5" />
             </SheetTrigger>
-            <SheetContent side="right" className="w-72 overflow-auto">
-              <SheetTitle className="text-lg font-bold mb-4">Menu</SheetTitle>
-              <nav className="flex flex-col gap-3">
+            <SheetContent side="right" className="w-full sm:w-80 overflow-auto px-0 pt-6 pb-8">
+              <div className="px-6 pb-4 border-b border-border">
+                <SheetTitle className="text-lg font-bold">Menu</SheetTitle>
+              </div>
+              <nav className="flex flex-col pt-4">
                 <Link
                   href="/"
                   onClick={() => setOpen(false)}
-                  className="text-sm font-medium hover:text-primary transition-colors"
+                  className="mx-4 text-base font-semibold text-foreground hover:text-primary transition-colors py-2.5 px-3 rounded-lg hover:bg-primary/5"
                 >
                   Home
                 </Link>
@@ -101,49 +103,55 @@ export function Navbar() {
                 {categories.map((cat) => {
                   const catTools = tools.filter((t) => cat.slugs.includes(t.slug));
                   return (
-                    <div key={cat.label}>
-                      <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider mt-2 mb-1">
+                    <div key={cat.label} className="mt-5">
+                      <p className="mx-7 text-[11px] text-primary font-bold uppercase tracking-widest mb-1.5">
                         {cat.label}
                       </p>
-                      {catTools.map((tool) => (
-                        <Link
-                          key={tool.slug}
-                          href={`/tools/${tool.slug}`}
-                          onClick={() => setOpen(false)}
-                          className="text-sm hover:text-primary transition-colors flex items-center gap-2 py-1"
-                        >
-                          <tool.icon className="h-4 w-4" />
-                          {tool.name}
-                        </Link>
-                      ))}
+                      <div className="flex flex-col">
+                        {catTools.map((tool) => (
+                          <Link
+                            key={tool.slug}
+                            href={`/tools/${tool.slug}`}
+                            onClick={() => setOpen(false)}
+                            className="mx-4 text-[13px] text-foreground/80 hover:text-foreground transition-colors flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-primary/5"
+                          >
+                            <tool.icon className="h-4 w-4 shrink-0 text-muted-foreground" />
+                            {tool.name}
+                          </Link>
+                        ))}
+                      </div>
                     </div>
                   );
                 })}
 
-                <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider mt-2">
-                  More
-                </p>
-                <Link
-                  href="/blog"
-                  onClick={() => setOpen(false)}
-                  className="text-sm font-medium hover:text-primary transition-colors"
-                >
-                  Blog
-                </Link>
-                <Link
-                  href="/about"
-                  onClick={() => setOpen(false)}
-                  className="text-sm font-medium hover:text-primary transition-colors"
-                >
-                  About
-                </Link>
-                <Link
-                  href="/contact"
-                  onClick={() => setOpen(false)}
-                  className="text-sm font-medium hover:text-primary transition-colors"
-                >
-                  Contact
-                </Link>
+                <div className="border-t border-border mt-5 pt-4">
+                  <p className="mx-7 text-[11px] text-primary font-bold uppercase tracking-widest mb-1.5">
+                    More
+                  </p>
+                  <div className="flex flex-col">
+                    <Link
+                      href="/blog"
+                      onClick={() => setOpen(false)}
+                      className="mx-4 text-[13px] text-foreground/80 font-medium hover:text-foreground transition-colors py-2.5 px-3 rounded-lg hover:bg-primary/5"
+                    >
+                      Blog
+                    </Link>
+                    <Link
+                      href="/about"
+                      onClick={() => setOpen(false)}
+                      className="mx-4 text-[13px] text-foreground/80 font-medium hover:text-foreground transition-colors py-2.5 px-3 rounded-lg hover:bg-primary/5"
+                    >
+                      About
+                    </Link>
+                    <Link
+                      href="/contact"
+                      onClick={() => setOpen(false)}
+                      className="mx-4 text-[13px] text-foreground/80 font-medium hover:text-foreground transition-colors py-2.5 px-3 rounded-lg hover:bg-primary/5"
+                    >
+                      Contact
+                    </Link>
+                  </div>
+                </div>
               </nav>
             </SheetContent>
           </Sheet>
